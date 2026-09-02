@@ -10,7 +10,7 @@ import { readFile } from "fs/promises";
 import wallet from "../../devnet-wallet.json";
 
 const umi = createUmi(
-  process.env.SOLANA_RPC_URL ?? "https://api.devnet.solana.com",
+  process.env.SOLANA_RPC_URL ?? "https://api.devnet.solana.com"
 );
 
 const keypair = umi.eddsa.createKeypairFromSecretKey(new Uint8Array(wallet));
@@ -19,21 +19,23 @@ const signer = createSignerFromKeypair(umi, keypair);
 umi.use(
   irysUploader({
     address: "https://devnet.irys.xyz/",
-  }),
+  })
 );
 
 umi.use(signerIdentity(signer));
 
 (async () => {
   try {
-    //chanege image path to your image path
-    const image = await readFile("file-path");
+    const image = await readFile("image.png");
 
-    //change the image name and mime type
-    // const file =
+    const file = createGenericFile(new Uint8Array(image), "watch-lion-0.png", {
+      contentType: "image/png",
+    });
 
-    // const [myUri] =
-    // console.log("Your image URI: ", myUri);
+    const [myUri] = await umi.uploader.upload([file]);
+
+    // https://gateway.irys.xyz/FxenccNqC58hSz6D2ajDFH1UJNQE4WmLZtHkag243p2v
+    console.log("Your image URI: ", myUri);
   } catch (error) {
     console.log(error);
   }

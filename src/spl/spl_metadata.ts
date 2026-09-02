@@ -13,8 +13,8 @@ import {
 } from "@metaplex-foundation/mpl-token-metadata";
 import bs58 from "bs58";
 
-//paste your mint address got from spl_init.ts
-const mint = publicKey("E2Jazz2VXcVL9RZkn6ZFA4q1YGvgEvrns3Gr6w72DC4w");
+// mint address from spl_init.ts
+const mint = publicKey("5w7HrxgaP962bm4ADxdpn77jPmcBiSaxW68TPTCWNLtu");
 
 const umi = createUmi("https://api.devnet.solana.com");
 
@@ -30,21 +30,32 @@ umi.use(signerIdentity(signer));
       mintAuthority: signer,
     };
 
-    //change the metadata
-    // const data: DataV2Args =
+    const data: DataV2Args = {
+      name: "Watch Lion Coin",
+      symbol: "WLxx",
+      uri: "https://arweave.net/123456",
+      sellerFeeBasisPoints: 1,
+      creators: null,
+      collection: null,
+      uses: null,
+    };
 
-    // const args: CreateMetadataAccountV3InstructionArgs =
+    const args: CreateMetadataAccountV3InstructionArgs = {
+      data,
+      isMutable: true,
+      collectionDetails: null,
+    };
 
-    // const tx = createMetadataAccountV3(umi, {
-    //   ...accounts,
-    //   ...args,
-    // });
+    const tx = createMetadataAccountV3(umi, {
+      ...accounts,
+      ...args,
+    });
 
-    // const result = await tx.sendAndConfirm(umi);
-    // console.log("signature: ", bs58.encode(Buffer.from(result.signature)));
+    const result = await tx.sendAndConfirm(umi);
+
+    // yv1fDoSUBsT9GowxNVHZhhVbN2C8C3oDx9bW7xVmxEfk55xHApHy5C9uVdpqVira2JpYcTmonp7yitsKzXEgwC9
+    console.log("signature: ", bs58.encode(Buffer.from(result.signature)));
   } catch (error) {
     console.log("error", error);
   }
 })();
-
-//43ttSnN9qaVi8TDcWwBZo5mUbfKDXY8d1N7exdJojJxV7qjKuwXoEh7qASXbFU4QFrAEFzZvcmWpRch434hSVNLN
