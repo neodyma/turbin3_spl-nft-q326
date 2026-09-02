@@ -9,7 +9,4 @@ node_modules/
 .env.test
 .env.production
 
-devnet-wallet.json
-images-cat.jpeg
-
-wallet.json
+*-wallet.json
